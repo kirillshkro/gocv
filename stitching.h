@@ -7,15 +7,18 @@ extern "C" {
 #endif
 
 #include "core.h"
+
+typedef enum {
+    PANORAMA = 0,
+    SCANS = 1
+} StitcherMode;
 #ifdef __cplusplus
-typedef cv::Stitcher::Mode StitcherMode;
 typedef cv::Ptr<cv::Stitcher>* PStitcher;
 #else
-typedef int StitcherMode;
-typedef void* Stitcher;
+typedef void* PStitcher;
 #endif
 
-PStitcher Stitcher_Create(StitcherMode mode = cv::Stitcher::PANORAMA);
+PStitcher Stitcher_Create(StitcherMode mode);
 
 #ifdef __cplusplus
 }

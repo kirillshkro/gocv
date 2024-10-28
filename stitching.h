@@ -12,6 +12,13 @@ typedef enum {
     PANORAMA = 0,
     SCANS = 1
 } StitcherMode;
+
+typedef enum {
+    OK,
+    ERROR_NEED_MORE_IMGS,
+    ERROR_HOMOGRAPHY_EST_FAIL,
+    ERROR_CAMERA_PARAMS_ADJUST_FAIL
+} StitcherStatus;
 #ifdef __cplusplus
 typedef cv::Ptr<cv::Stitcher>* PStitcher;
 #else

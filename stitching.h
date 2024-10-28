@@ -26,6 +26,7 @@ typedef void* PStitcher;
 #endif
 
 PStitcher Stitcher_Create(StitcherMode mode);
+StitcherStatus Stitcher_Stitch(PStitcher stitcher, Mats images, Mat pano);
 
 #ifdef __cplusplus
 }

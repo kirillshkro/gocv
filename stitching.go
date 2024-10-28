@@ -5,7 +5,7 @@ import "C"
 import "unsafe"
 
 type Stitcher struct {
-	p unsafe.Pointer
+	p C.PStitcher
 }
 
 type Stitcher_Mode struct {
@@ -16,6 +16,10 @@ type Stitcher_Status struct {
 	p C.StitcherStatus
 }
 
+type OMat struct {
+	p C.Mat
+}
+
 const (
 	Stitcher_Status_OK = iota
 	Stitcher_Status_ERR_NEED_MORE_IMGS
@@ -24,5 +28,16 @@ const (
 )
 
 func Stitcher_Create(mode Stitcher_Mode) Stitcher {
-	return Stitcher{p: unsafe.Pointer(C.Stitcher_Create(mode.p))}
+	return Stitcher{p: C.Stitcher_Create(mode.p)}
+}
+
+func (s Stitcher) Stitch(images []Mat) (Mat, Stitcher_Status) {
+	var cimg OMat
+	var cstatus C.StitcherStatus
+	var images_c C.Mats = C.Mats{
+		length: C.int(len(images)),
+		mats: (*C.Mat)(unsafe.Pointer(&images[0])),
+	}
+	cstatus = C.Stitcher_Stitch(s.p, images_c, cimg.p)
+	return Mat{p: cimg.p }, Stitcher_Status{p: cstatus}
 }

@@ -41,3 +41,18 @@ func (s Stitcher) Stitch(images []Mat) (Mat, Stitcher_Status) {
 	cstatus = C.Stitcher_Stitch(s.p, images_c, cimg.p)
 	return Mat{p: cimg.p }, Stitcher_Status{p: cstatus}
 }
+
+func (s Stitcher) StitchWithMasks(images []Mat, masks []Mat) (Mat, Stitcher_Status) {
+	var cimg OMat
+	var cstatus C.StitcherStatus
+	var images_c C.Mats = C.Mats{
+		length: C.int(len(images)),
+		mats: (*C.Mat)(unsafe.Pointer(&images[0])),
+	}
+	var masks_c C.Mats = C.Mats{
+		length: C.int(len(masks)),
+		mats: (*C.Mat)(unsafe.Pointer(&masks[0])),
+	}
+	cstatus = C.Stitcher_StitchWithMasks(s.p, images_c, masks_c, cimg.p)
+	return Mat{p: cimg.p }, Stitcher_Status{p: cstatus}
+}

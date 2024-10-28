@@ -51,6 +51,7 @@ func (s Stitcher) Stitch(images []Mat) (Mat, StitcherStatus) {
 		length: C.int(len(images)),
 		mats: (*C.Mat)(unsafe.Pointer(&images[0])),
 	}
+
 	cstatus = C.Stitcher_Stitch(s.p, images_c, cimg.p)
 	return Mat{p: cimg.p }, StitcherStatus{p: cstatus}
 }
@@ -66,6 +67,7 @@ func (s Stitcher) StitchWithMasks(images []Mat, masks []Mat) (Mat, StitcherStatu
 		length: C.int(len(masks)),
 		mats: (*C.Mat)(unsafe.Pointer(&masks[0])),
 	}
+	
 	cstatus = C.Stitcher_StitchWithMasks(s.p, images_c, masks_c, cimg.p)
 	return Mat{p: cimg.p }, StitcherStatus{p: cstatus}
 }
